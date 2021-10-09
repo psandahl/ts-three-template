@@ -1,9 +1,13 @@
 import * as Three from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 let scene: Three.Scene;
 let camera: Three.PerspectiveCamera;
 let renderer: Three.WebGLRenderer;
 let cube: Three.Mesh;
+let stats: Stats;
+let controls: OrbitControls;
 
 window.onload = () => {
     console.log('Loaded');
@@ -30,6 +34,16 @@ window.onload = () => {
     cube = new Three.Mesh(geometry, material);
     scene.add(cube);
 
+    // Add a coordinate system axes helper in the view.
+    scene.add(new Three.AxesHelper(3));
+
+    // Add a stats widget.
+    stats = Stats();
+    document.body.appendChild(stats.dom);
+
+    // Add Orbit controls to move the camera.
+    controls = new OrbitControls(camera, renderer.domElement);
+
     animate();
 };
 
@@ -45,10 +59,10 @@ window.onresize = () => {
 const animate = () => {
     window.requestAnimationFrame(animate);
 
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
     render();
+
+    // Update the stats widget.
+    stats.update();
 };
 
 const render = () => {
