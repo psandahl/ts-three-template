@@ -63,6 +63,9 @@ const animate = () => {
 
     // Update the stats widget.
     stats.update();
+
+    // Update the controls.
+    controls.update();
 };
 
 const render = () => {
